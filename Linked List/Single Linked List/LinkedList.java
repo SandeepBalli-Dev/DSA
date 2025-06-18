@@ -61,13 +61,50 @@ class LinkedList {
         temp.next = newNode;
     }
 
+    public void deleteAtBeginning() {
+        Node temp = head.next;
+        head.next = null;
+        head = temp;
+    }
+
+    public void deleteAtEnd() {
+        Node temp = head;
+        while (temp.next.next != null) {
+            temp = temp.next;
+        }
+        temp.next = null;
+    }
+
+    public void deleteAtPosition(int position) {
+        int count = 0;
+        if (position == 1) {
+            Node temp = head.next;
+            head.next = null;
+            head = temp;
+            return;
+        }
+
+        Node temp = head;
+        while(temp != null && count < position - 1) {
+            temp = temp.next;
+            count++;
+        }
+        if(temp == null) {
+            System.out.println("Position exceeded list size");
+            return;
+        }
+
+        temp.next = temp.next.next;
+
+    }
+
     public static void main(String[] args) {
         LinkedList list = new LinkedList();
 
         // Insert at beginning
         list.insertAtBeginning(30);
         list.insertAtBeginning(20);
-        list.insertAtBeginning(10); 
+        list.insertAtBeginning(10);
 
         list.insertAtEnd(50);
         list.insertAtPosition(40, 4);
