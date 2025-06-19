@@ -76,7 +76,7 @@ class LinkedList {
     }
 
     public void deleteAtPosition(int position) {
-        int count = 0;
+        int count = 1;
         if (position == 1) {
             Node temp = head.next;
             head.next = null;
@@ -85,16 +85,18 @@ class LinkedList {
         }
 
         Node temp = head;
-        while(temp != null && count < position - 1) {
+        while (temp != null && count < position - 1) {
             temp = temp.next;
             count++;
         }
-        if(temp == null) {
+        if (temp == null) {
             System.out.println("Position exceeded list size");
             return;
         }
 
-        temp.next = temp.next.next;
+        Node nodeToDelete = temp.next;
+        temp.next = nodeToDelete.next;
+        nodeToDelete.next = null;
 
     }
 
