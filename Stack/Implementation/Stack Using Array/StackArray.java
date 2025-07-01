@@ -1,4 +1,3 @@
-
 class StackArray {
 
     private int maxSize;
