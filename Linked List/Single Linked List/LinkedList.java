@@ -1,4 +1,3 @@
-
 class Node {
 
     int data;
@@ -6,19 +5,26 @@ class Node {
 
     public Node(int data) {
         this.data = data;
+        next = null;
     }
 }
 
-class LinkedList {
+public class LinkedList {
 
     private Node head;
 
-    public void traverseList() {
-        Node temp = head;
-        while (temp != null) {
-            System.out.println("Value: " + temp.data);
-            temp = temp.next;
+    public void insertAtEnd(int data) {
+        Node newNode = new Node(data);
+        if(head == null) {
+            head = newNode;
+            return;
         }
+        
+        Node currNode = head;
+        while(currNode.next != null) {
+            currNode = currNode.next;
+        }
+        currNode.next = newNode;
     }
 
     public void insertAtBeginning(int data) {
@@ -27,90 +33,56 @@ class LinkedList {
         head = newNode;
     }
 
-    public void insertAtEnd(int data) {
-        Node endNode = new Node(data);
-        endNode.next = null;
-
-        Node temp = head;
-        while (temp.next != null) {
-            temp = temp.next;
-        }
-        temp.next = endNode;
-    }
-
-    public void insertAtPosition(int data, int position) {
+    public void insertAtAGivenPosition(int data, int position) {
         Node newNode = new Node(data);
-        Node temp = head;
+        Node currNode = head;
+
+        if(position == 1) {
+            insertAtBeginning(data);
+            return;
+        }
 
         int count = 1;
-        if (position == 1) {
-            newNode.next = head;
-            head = newNode;
-            return;
-        }
-
-        while (temp != null && count < position - 1) {
-            temp = temp.next;
+        while(currNode != null && count < position - 1) {
+            currNode = currNode.next;
             count++;
         }
-        if (temp == null) {
-            System.out.println("Position exceeded list size");
+        if(currNode == null) {
+            System.err.println("Position out of bound");
             return;
         }
-        newNode.next = temp.next;
-        temp.next = newNode;
+        Node nextNode = currNode.next;
+        currNode.next = newNode;
+        newNode.next = nextNode;
+
     }
 
-    public void deleteAtBeginning() {
-        Node temp = head.next;
-        head.next = null;
-        head = temp;
-    }
-
-    public void deleteAtEnd() {
-        Node temp = head;
-        while (temp.next.next != null) {
-            temp = temp.next;
+    public void printList() {
+        Node currNode = head;
+        while(currNode != null) {
+            System.out.print(currNode.data + " ");
+            currNode = currNode.next;
         }
-        temp.next = null;
-    }
-
-    public void deleteAtPosition(int position) {
-        int count = 1;
-        if (position == 1) {
-            Node temp = head.next;
-            head.next = null;
-            head = temp;
-            return;
-        }
-
-        Node temp = head;
-        while (temp != null && count < position - 1) {
-            temp = temp.next;
-            count++;
-        }
-        if (temp == null) {
-            System.out.println("Position exceeded list size");
-            return;
-        }
-
-        Node nodeToDelete = temp.next;
-        temp.next = nodeToDelete.next;
-        nodeToDelete.next = null;
-
     }
 
     public static void main(String[] args) {
-        LinkedList list = new LinkedList();
+        LinkedList ll = new LinkedList();
+        ll.insertAtEnd(10);
+        ll.insertAtEnd(20);
+        ll.insertAtEnd(40);
+        ll.insertAtEnd(50);
+        System.out.println("Insert at End.");
+        ll.printList();
+        
+        // System.out.println("");
+        // ll.insertAtBeginning(0);
+        // System.out.println("Insert at Beginning.");
+        // ll.printList();
 
-        // Insert at beginning
-        list.insertAtBeginning(30);
-        list.insertAtBeginning(20);
-        list.insertAtBeginning(10);
-
-        list.insertAtEnd(50);
-        list.insertAtPosition(40, 4);
-        list.traverseList();
-
+        System.out.println("");
+        ll.insertAtAGivenPosition(30, 3);
+        System.out.println("Insert at Given Position.");
+        ll.printList();
+        System.out.println("");
     }
 }
